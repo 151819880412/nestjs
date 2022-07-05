@@ -12,6 +12,10 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
       //  将传入的数据格式转换为我们定义的类型(比如get请求占位符id是number但是经过网络传输会自动转为string)
       transform: true,
+      transformOptions: {
+        // 隐式类型转换
+        enableImplicitConversion: true,
+      },
     }),
   );
   await app.listen(8087);

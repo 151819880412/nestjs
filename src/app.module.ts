@@ -3,6 +3,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CoffeesModule } from './coffees/coffees.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CoffeeRatingsModule } from './coffee-ratings/coffee-ratings.module';
+import { CoffeeRatingService } from './coffee-rating/coffee-rating.service';
 
 @Module({
   imports: [
@@ -20,8 +22,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       // 实体每次运行程序时都会和数据库同步。生产中需要关闭
       synchronize: true,
     }),
+    CoffeeRatingsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, CoffeeRatingService],
 })
 export class AppModule {}

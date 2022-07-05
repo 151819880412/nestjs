@@ -16,26 +16,57 @@ TypeORM  支持储存库设计模式，这意味着我们创建的每个实体�
   @ManyToMany()  :  定义数据库关联多对多的关系
   @JoinTable()   :  连接关系的中间表
   @ManyToMany((type) => Flavor, (flavor) => flavor.coffees, { cascade: true })        cascade -- 级联插入  插入和更新启用级联 
+  Connection     :  数据库连接对象
+  @Index         :  数据库索引
+  Database 数据库迁移提供了一种增量更新我们的数据库模式并使其与应用程序数据模型保持同步的方法，同时保留我们数据库中现有的数据
+  queryRunner.query()   需要确保重新编译
+
+class-transformer
+  @Type(() => Number)   确保被传入的值被解析为数字(需要每个文件都添加)  全局 ： enableImplicitConversion:true
+  
 
 DTO : 数据传输对象，用于封装数据并将其从一个应用程序发送到另一个应用程序，DTO帮助我们定义系统内的接口或者输入和输出
       让我们为进入API请求主体的数据的形状创建一个定义。
       但我们不知道是谁在调用这些请求，我们如何确保传入的数据具有正确的形状。或者如果他缺少必填字段
 
+数据库 :
+  QueryRunner    处理数据库事务
+
 Entity : 表示 TypeScript 类和数据库表之间的关系
 
 ValidationPipe : 用来验证字段正确性。需要 npm i class-validator class-transformer
-  PartialType  标记所有属性都是可选的 
   @IsOptional()  动态添加单个附加验证规则到每个字段
+  @IsPositive()  如果为正数就大于0
+  PartialType  标记所有属性都是可选的 
+  transformOptions: {
+    enableImplicitConversion: true,   // 隐式类型转换
+  },
   whitelist: true               设置白名单
   forbidNonWhitelisted: true    任何非白名单属性都会报错
   transform: true               将传入的数据格式转换为我们定义的类型(get请求id是number但是经过网络传输会自动转为string)   会对性能产生一点点影响
 
 controller 
   控制层，用来和前端交互
+
+跨模块调用
+  所有模块都封装了他们的提供者，这意味着如果你想在另一个模块中使用他们，我们必须明确的将他们定义为导出
+  @Module({
+    exports: [CoffeesService],
+  })
+
+流程
   nest generate controller name  / nest g co  生成一个控制器      不生成测试文件：nest g co --no-spec
   nest generate service 或者 nest g s         输入文件名创建服务，cli会创建对应服务和测试文件
   nest g module     生成一个module,需要删除app.module里面的引用，不然会实例化两次
   nest g class coffees/dto/create-coffee.dto --no-spec
+  nest g class common/dto/pagination-query.dto --no-spec    创建分页DTO  
+  nest g class events/entities/event.entity --no-spec       处理数据库事务相关
+  npx typeorm migration:create -n CoffeeRefactor            数据库迁移  typeorm0.2        更改列名时会删除之前所有的数据并新建已列  
+    up 代码好了之后需要重新打包并执行  npx typeorm migration:run 
+    down 代码好之后需要重新打包并执行  npx typeorm migration:revert
+  npx typeorm migration:create src/migrations/CoffeeRefactor    数据库迁移  typeorm0.3+   更改列名时不会改变数据
+  nest g mo coffee-rating     创建新module
+  nest g s coffee-rating      创建新 service
 
   @Entity   装饰实体的类(和数据库同步的类)
   @PrimaryGeneratedColumn()       数据库主键id
