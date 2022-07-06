@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Connection, Repository } from 'typeorm';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
@@ -9,6 +9,13 @@ import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { Event } from '../events/entities/event.entity';
 import { COFFEE_BRANDS } from './coffees.constants';
 
+/**
+ * @Inject 注入后就会产生生命周期 默认为单例
+ *    scope: Scope.TRANSIENT  每次调用实例化
+ *    scope:Scope.REQUEST     每次请求实例化
+ * @date 2022-07-06
+ * @returns {any}
+ */
 @Injectable()
 export class CoffeesService {
   constructor(
@@ -19,7 +26,7 @@ export class CoffeesService {
     private readonly connection: Connection,
     @Inject(COFFEE_BRANDS) coffeeBrands: string[],
   ) {
-    console.log(coffeeBrands);
+    console.log('CoffeesService：' + coffeeBrands);
   }
 
   findAll(paginationQuery: PaginationQueryDto) {
