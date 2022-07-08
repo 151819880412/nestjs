@@ -7,7 +7,9 @@ import { Coffee } from './entities/coffee.entity';
 import { Flavor } from './entities/flavor.entity';
 import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { Event } from '../events/entities/event.entity';
-import { COFFEE_BRANDS } from './coffees.constants';
+import { ConfigService, ConfigType } from '@nestjs/config';
+import coffeesConfig from './config/coffees.config';
+// import { COFFEE_BRANDS } from './coffees.constants';
 
 /**
  * @Inject 注入后就会产生生命周期 默认为单例
@@ -23,10 +25,18 @@ export class CoffeesService {
     private readonly coffeeEntityRepository: Repository<Coffee>,
     @InjectRepository(Flavor)
     private readonly flavorRepository: Repository<Flavor>,
-    private readonly connection: Connection,
-    @Inject(COFFEE_BRANDS) coffeeBrands: string[],
+    private readonly connection: Connection, // @Inject(COFFEE_BRANDS) coffeeBrands: string[],
+    private readonly configService: ConfigService,
+    @Inject(coffeesConfig.KEY)
+    private readonly cofffeesConfiguration: ConfigType<typeof coffeesConfig>,
   ) {
-    console.log('CoffeesService：' + coffeeBrands);
+    // console.log('CoffeesService：');
+    // const databaseHost = this.configService.get('DATABASE_HOST', 'localhost');
+    // const databaseHost = this.configService.get('database.host', 'localhost');
+    // 命名空间
+    const databaseHost = this.configService.get('coffees.foo');
+    console.log(databaseHost);
+    console.log(cofffeesConfiguration);
   }
 
   findAll(paginationQuery: PaginationQueryDto) {

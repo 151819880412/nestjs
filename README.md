@@ -67,6 +67,10 @@ controller
   npx typeorm migration:create src/migrations/CoffeeRefactor    数据库迁移  typeorm0.3+   更改列名时不会改变数据
   nest g mo coffee-rating     创建新module
   nest g s coffee-rating      创建新 service
+  nest g mo database          创建 database 连接
+  npm install @nestjs/config    用来区分不同环境(开发/生产)
+  npm install @hapi/joi       用来确保所有环境变量都得到验证
+  npm i --save-dec @types/hapi__joi   类型声明文件
 
   @Entity   装饰实体的类(和数据库同步的类)
   @PrimaryGeneratedColumn()       数据库主键id

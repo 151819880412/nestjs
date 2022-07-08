@@ -8,6 +8,8 @@ import { Event } from '@/events/entities/event.entity';
 import { COFFEE_BRANDS } from './coffees.constants';
 import { async } from 'rxjs';
 import { Connection } from 'typeorm';
+import { ConfigModule } from '@nestjs/config';
+import coffeesConfig from './config/coffees.config';
 
 class MockCoffeesService {}
 
@@ -30,51 +32,62 @@ export class CoffeeBrandsFactory {
  * @param {any} {imports:[TypeOrmModule.forFeature([Coffee]
  * @returns {any}
  */
+// @Module({
+//   imports: [TypeOrmModule.forFeature([Coffee, Flavor, Event])],
+//   controllers: [CoffeesController],
+//   // providers: [CoffeesService],
+//   // providers: [{ provide: CoffeesService, useClass: CoffeesService }],
+//   // providers: [{ provide: CoffeesService, useClass: MockCoffeesService }],
+
+//   // providers: [
+//   //   CoffeesService,
+//   //   {
+//   //     provide: ConfigService,
+//   //     useClass:
+//   //       process.env.NODE_ENV === 'deve;opment'
+//   //         ? DevelopmentConfigService
+//   //         : ProductionConfigService,
+//   //   },
+//   //   CoffeeBrandsFactory,
+//   //   // 使用 useValue
+//   //   // { provide: COFFEE_BRANDS, useValue: ['aaaaa', 'bbbbbb'] },
+//   //   // 使用 useFactory
+//   //   // {
+//   //   //   provide: COFFEE_BRANDS,
+//   //   //   useFactory: () => ['aaa', 'bbb'],
+//   //   // },
+//   //   // 注入
+//   //   // {
+//   //   //   provide: COFFEE_BRANDS,
+//   //   //   useFactory: (brandsFactory: CoffeeBrandsFactory) =>
+//   //   //     brandsFactory.create(),
+//   //   //   inject: [CoffeeBrandsFactory],
+//   //   // },
+//   //   {
+//   //     provide: COFFEE_BRANDS,
+//   //     useFactory: async (connection: Connection): Promise<string[]> => {
+//   //       const coffeeBrands = await Promise.resolve(['异步执行']);
+//   //       return coffeeBrands;
+//   //     },
+//   //     inject: [CoffeeBrandsFactory],
+//   //   },
+//   // ],
+
+//   providers: [
+//     CoffeesService,
+//     { provide: COFFEE_BRANDS, useFactory: () => ['aaa', 'bbb'] },
+//   ],
+//   exports: [CoffeesService],
+// })
+
+// 初始
 @Module({
-  imports: [TypeOrmModule.forFeature([Coffee, Flavor, Event])],
-  controllers: [CoffeesController],
-  // providers: [CoffeesService],
-  // providers: [{ provide: CoffeesService, useClass: CoffeesService }],
-  // providers: [{ provide: CoffeesService, useClass: MockCoffeesService }],
-
-  // providers: [
-  //   CoffeesService,
-  //   {
-  //     provide: ConfigService,
-  //     useClass:
-  //       process.env.NODE_ENV === 'deve;opment'
-  //         ? DevelopmentConfigService
-  //         : ProductionConfigService,
-  //   },
-  //   CoffeeBrandsFactory,
-  //   // 使用 useValue
-  //   // { provide: COFFEE_BRANDS, useValue: ['aaaaa', 'bbbbbb'] },
-  //   // 使用 useFactory
-  //   // {
-  //   //   provide: COFFEE_BRANDS,
-  //   //   useFactory: () => ['aaa', 'bbb'],
-  //   // },
-  //   // 注入
-  //   // {
-  //   //   provide: COFFEE_BRANDS,
-  //   //   useFactory: (brandsFactory: CoffeeBrandsFactory) =>
-  //   //     brandsFactory.create(),
-  //   //   inject: [CoffeeBrandsFactory],
-  //   // },
-  //   {
-  //     provide: COFFEE_BRANDS,
-  //     useFactory: async (connection: Connection): Promise<string[]> => {
-  //       const coffeeBrands = await Promise.resolve(['异步执行']);
-  //       return coffeeBrands;
-  //     },
-  //     inject: [CoffeeBrandsFactory],
-  //   },
-  // ],
-
-  providers: [
-    CoffeesService,
-    { provide: COFFEE_BRANDS, useFactory: () => ['aaa', 'bbb'] },
+  imports: [
+    TypeOrmModule.forFeature([Coffee, Flavor, Event]),
+    ConfigModule.forFeature(coffeesConfig),
   ],
+  controllers: [CoffeesController],
+  providers: [CoffeesService],
   exports: [CoffeesService],
 })
 export class CoffeesModule {}

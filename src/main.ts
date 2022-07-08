@@ -21,3 +21,15 @@ async function bootstrap() {
   await app.listen(8087);
 }
 bootstrap();
+
+/**
+ * 全局异常
+ * @date 2022-07-08
+ * @param {any} 'unhandledRejection'
+ * @param {any} (reason
+ * @param {any} promise
+ * @returns {any}
+ */
+process.on('unhandledRejection', (reason, promise) => {
+  console.log('Unhandled Rejection at: Promise', promise, 'reason:', reason);
+});
