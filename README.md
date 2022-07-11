@@ -1,5 +1,14 @@
 /**
 
+nestjs
+  在我们进入每个 Nest 构建块的细节之前，我们可以采取的一些方法来将这些构建快中任何一个绑定到我们应用程序的不同部分
+  嵌套构建块可以是：全局 控制器 方法 参数
+  不同的绑定技术为我们提供了应用程序中不同界别的粒度和控制，每个都不会覆盖另一个，而是将每个分层在顶部
+  过滤器  为了减少内存使用应该使用类而不是实例来应用过滤器(因为 Nest 可以在整个模块中轻松重用同一类的实例)
+  守卫
+  拦截器
+  特定管道    全局管道(app.useGlobalPipes())  单个管道( @UsePipes())
+
 app.controller.ts	带有单个路由的基本控制器。
 app.controller.spec.ts	针对控制器的单元测试。
 app.module.ts	T应用程序的根模块（root module）。
@@ -71,6 +80,7 @@ controller
   npm install @nestjs/config    用来区分不同环境(开发/生产)
   npm install @hapi/joi       用来确保所有环境变量都得到验证
   npm i --save-dec @types/hapi__joi   类型声明文件
+  nest g filter common/filters/http-exception   请求过滤器
 
   @Entity   装饰实体的类(和数据库同步的类)
   @PrimaryGeneratedColumn()       数据库主键id

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, ValidationPipe } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CoffeesModule } from './coffees/coffees.module';
@@ -9,6 +9,7 @@ import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from '@hapi/joi';
 import appConfig from './config/app.config';
+import { APP_PIPE } from '@nestjs/core';
 
 /**
  * ConfigModule  允许我们使用嵌套对象定义和加载多个自定义配置文件，并通过 ConfigService 访问这些变量
@@ -55,6 +56,10 @@ import appConfig from './config/app.config';
     DatabaseModule,
   ],
   controllers: [AppController],
-  providers: [AppService, CoffeeRatingService],
+  providers: [
+    AppService,
+    CoffeeRatingService,
+    // { provide: APP_PIPE, useClass: ValidationPipe },  // 注册为全局的
+  ],
 })
 export class AppModule {}
