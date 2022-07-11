@@ -8,6 +8,13 @@ nestjs
   守卫
   拦截器
   特定管道    全局管道(app.useGlobalPipes())  单个管道( @UsePipes())
+    管道:1.将输入数据转换为所需要的输出数据  2.验证数据 
+        NestJS在方法被调用之前触发一个管道，管道还接收要传递给方法的参数，任何转换或验证操作都在此时发生。
+        之后，使用任何可能的转换的参数调用路由处理程序
+        ValidationPipe    ParseArrayPipe    ParseIntPipe
+
+中间件:是一个在处理路由处理程序和任何其他构建块之前调用的函数，包括拦截器，守卫和管道
+  中间件函数可以访问 Request amp 响应对象，并且不专门绑定
 
 app.controller.ts	带有单个路由的基本控制器。
 app.controller.spec.ts	针对控制器的单元测试。
@@ -96,6 +103,8 @@ controller
   nest g mo common            注册我们将来可能只做的任何全局增强器
   nest g interceptor common/interceptors/warp-response      请求拦截器
   nest g interceptor common/interceptors/timeout            请求超时响应
+  nest g pipe common/pipes/parse-int                  学习 ParseIntPipe 管道
+  nest g middleware common/middleware/logging         中间件
 
 
   @Entity()   装饰实体的类(和数据库同步的类)
