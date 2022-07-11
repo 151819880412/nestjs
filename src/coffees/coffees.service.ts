@@ -106,6 +106,7 @@ export class CoffeesService {
     // 开始事务：
     await queryRunner.startTransaction();
     try {
+      console.log(11111);
       coffee.recommentdations++;
 
       const recommendEvent = new Event();

@@ -12,11 +12,13 @@ import {
   Patch,
   Post,
   Query,
+  SetMetadata,
   UsePipes,
 } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 import { ValidationPipe } from '@nestjs/common';
+import { Public } from '@/common/decorators/public.decorator';
 
 // @UsePipes(ValidationPipe)    所有方法
 @Controller('coffees')
@@ -27,6 +29,8 @@ export class CoffeesController {
   ) {}
 
   // @UsePipes(ValidationPipe)   单个方法
+  // @SetMetadata('isPublic', true)  相当于 @Public()   可以不需要 token 不进行操作
+  @Public()
   @Get()
   findAll(@Query() paginationQuery: PaginationQueryDto) {
     return this.coffeesService.findAll(paginationQuery);
