@@ -15,6 +15,17 @@ app.module.ts	T应用程序的根模块（root module）。
 app.service.ts	具有单一方法的基本服务（service）。 method.
 main.ts	应用程序的入口文件，它使用核心函数 NestFactory 来创建 Nest 应用程序的实例。
 
+SpringBoot:
+  controller   前后端交互的请求方法(调用 service 的方法)
+  mapper       操作数据库的接口
+    xml        操作数据库的接口的具体实现类
+  pojo
+    dto        dto->entity->数据库  或者 数据库->entity->dto  用来存取固定格式的数据
+    vo         数据库->entity->vo    只用来取数据
+    entity     与数据库对应的字段
+  service      定义很多方法接口
+    impl       接口的具体实现类
+
 TypeORM  支持储存库设计模式，这意味着我们创建的每个实体都有自己的储存库 
   Repository : 作为对我们数据源的抽象，并公开了各种有用的方法来与储存在我们数据库中的记录进行交互 
     @InjectRepository(Coffee)   在 Service 中自动注入 Entity
@@ -82,8 +93,12 @@ controller
   npm i --save-dec @types/hapi__joi   类型声明文件
   nest g filter common/filters/http-exception   请求过滤器
   nest g guard common/guards/api-key            关于请求token的
+  nest g mo common            注册我们将来可能只做的任何全局增强器
+  nest g interceptor common/interceptors/warp-response      请求拦截器
+  nest g interceptor common/interceptors/timeout            请求超时响应
 
-  @Entity   装饰实体的类(和数据库同步的类)
+
+  @Entity()   装饰实体的类(和数据库同步的类)
   @PrimaryGeneratedColumn()       数据库主键id
   @Column()             数据库一般的列
   @Column('json', { nullable: true })         表示这个列为json对象，可以为null
@@ -134,6 +149,23 @@ controller
 
     @Module({})   模块装饰器，需要一个单一的对象，其属性描述了模块和所有的他的上下文
 
+    @IsOptional()   检查是否缺少值，如果是，则忽略所有验证器。
+
+    @IsPositive()   检查该值是否为大于零的正数。
+
+    @Entity()       装饰实体的类(和数据库同步的类)
+
+    @Index(['xxx', 'xxx'])    创建数据库索引。 可用于实体属性或实体。 在实体上使用时可以使用复合列创建索引。
+
+    @Injectable()   声明xxxService是一个可以由嵌套IoC容器管理的类。被装饰器@Injectable()修饰的类都可以视为服务提供者。
+
+    @UsePipes(xxx)    单个管道添加
+
+    @SetMetadata('key','value')   将自定义元数据附加到路由处理程序的能力
+
+    @Catch(HttpException)     将类标记为 Nest 异常过滤器的装饰器。异常过滤器 处理应用程序代码抛出或不处理的异常。装饰类必须实现 ExceptionFilter 接口。
+
+    @ManyToMany      数据库字段多对多
 
 
 

@@ -32,7 +32,8 @@ export class CoffeesController {
   // @SetMetadata('isPublic', true)  相当于 @Public()   可以不需要 token 不进行操作
   @Public()
   @Get()
-  findAll(@Query() paginationQuery: PaginationQueryDto) {
+  async findAll(@Query() paginationQuery: PaginationQueryDto) {
+    await new Promise((res) => setTimeout(res, 5000));
     return this.coffeesService.findAll(paginationQuery);
   }
 
