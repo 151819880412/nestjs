@@ -40,7 +40,6 @@ export class CoffeesController {
 
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: string) {
-    console.log(id, typeof id);
     return this.coffeesService.findOne(id);
   }
 

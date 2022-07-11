@@ -18,7 +18,6 @@ import {
 @Injectable()
 export class ParseIntPipe implements PipeTransform {
   transform(value: any, metadata: ArgumentMetadata) {
-    console.log(value, typeof value);
     const val = parseInt(value, 10);
     if (isNaN(val)) {
       throw new BadRequestException('参数错误' + val);
