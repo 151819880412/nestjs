@@ -81,6 +81,7 @@ controller
   npm install @hapi/joi       用来确保所有环境变量都得到验证
   npm i --save-dec @types/hapi__joi   类型声明文件
   nest g filter common/filters/http-exception   请求过滤器
+  nest g guard common/guards/api-key            关于请求token的
 
   @Entity   装饰实体的类(和数据库同步的类)
   @PrimaryGeneratedColumn()       数据库主键id
