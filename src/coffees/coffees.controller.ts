@@ -19,6 +19,7 @@ import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 import { ValidationPipe } from '@nestjs/common';
 import { Public } from '@/common/decorators/public.decorator';
+import { ParseIntPipe } from '../common/pipes/parse-int.pipe';
 
 // @UsePipes(ValidationPipe)    所有方法
 @Controller('coffees')
@@ -38,7 +39,8 @@ export class CoffeesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', ParseIntPipe) id: string) {
+    console.log(id, typeof id);
     return this.coffeesService.findOne(id);
   }
 
