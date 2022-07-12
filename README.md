@@ -105,6 +105,7 @@ controller
   nest g interceptor common/interceptors/timeout            请求超时响应
   nest g pipe common/pipes/parse-int                  学习 ParseIntPipe 管道
   nest g middleware common/middleware/logging         中间件
+  npm i @nestjs/swagger swagger-ui-express            安装 swagger
 
 
   @Entity()   装饰实体的类(和数据库同步的类)

@@ -4,6 +4,7 @@ import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { WarpResponseInterceptor } from './common/interceptors/warp-response.interceptor';
 import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -28,6 +29,16 @@ async function bootstrap() {
     new TimeoutInterceptor(),
   );
   app.useGlobalFilters(new HttpExceptionFilter());
+
+  const options = new DocumentBuilder()
+    .setTitle('标题')
+    .setDescription('Coffee application')
+    .setVersion('1.0')
+    .build();
+  const document = SwaggerModule.createDocument(app, options);
+  // 挂载
+  SwaggerModule.setup('api', app, document);
+
   await app.listen(8087);
 }
 bootstrap();
