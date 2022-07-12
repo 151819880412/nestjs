@@ -21,8 +21,10 @@ import { ValidationPipe } from '@nestjs/common';
 import { Public } from '@/common/decorators/public.decorator';
 import { ParseIntPipe } from '../common/pipes/parse-int.pipe';
 import { Protocol } from '@/common/decorators/prorocol.decorator';
+import { ApiForbiddenResponse, ApiTags } from '@nestjs/swagger';
 
 // @UsePipes(ValidationPipe)    所有方法
+@ApiTags('coffees')
 @Controller('coffees')
 export class CoffeesController {
   constructor(
@@ -33,13 +35,16 @@ export class CoffeesController {
   // @UsePipes(ValidationPipe)   单个方法
   // @SetMetadata('isPublic', true)  相当于 @Public()   可以不需要 token 不进行操作
   @Public()
+  // @ApiResponse({ status: 403, description: "Forbidden." })
+  @ApiForbiddenResponse({ description: '错误.' })
   @Get()
-  async findAll(
+  findAll(
     @Protocol('https') protocol: string,
     @Query() paginationQuery: PaginationQueryDto,
   ) {
-    await new Promise((res) => setTimeout(res, 5000));
     console.log(protocol);
+    const { limit, offset } = paginationQuery;
+    console.log(limit, offset);
     return this.coffeesService.findAll(paginationQuery);
   }
 
@@ -66,11 +71,5 @@ export class CoffeesController {
   @Delete(':id')
   d(@Param('id') id: string) {
     return this.coffeesService.remove(id);
-  }
-
-  @Get()
-  c(@Query() paginationQuery) {
-    const { limit, offset } = paginationQuery;
-    return limit + offset;
   }
 }

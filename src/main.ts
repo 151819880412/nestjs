@@ -34,6 +34,7 @@ async function bootstrap() {
     .setTitle('标题')
     .setDescription('Coffee application')
     .setVersion('1.0')
+    .addTag('cats')
     .build();
   const document = SwaggerModule.createDocument(app, options);
   // 挂载
