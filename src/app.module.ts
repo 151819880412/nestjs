@@ -13,6 +13,7 @@ import { APP_PIPE } from '@nestjs/core';
 import { CommonModule } from './common/common.module';
 import { TasksModule } from './tasks/tasks.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { AudioModule } from './jobs/audio/audio.module';
 
 /**
  * ConfigModule  允许我们使用嵌套对象定义和加载多个自定义配置文件，并通过 ConfigService 访问这些变量
@@ -58,8 +59,11 @@ import { ScheduleModule } from '@nestjs/schedule';
     CoffeeRatingsModule,
     DatabaseModule,
     CommonModule,
-    ScheduleModule.forRoot(),
-    TasksModule,
+    // 定时任务
+    // ScheduleModule.forRoot(),
+    // TasksModule,
+    // 任务队列
+    // AudioModule,
   ],
   controllers: [AppController],
   providers: [
