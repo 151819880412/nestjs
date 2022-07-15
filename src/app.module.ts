@@ -11,6 +11,8 @@ import * as Joi from '@hapi/joi';
 import appConfig from './config/app.config';
 import { APP_PIPE } from '@nestjs/core';
 import { CommonModule } from './common/common.module';
+import { TasksModule } from './tasks/tasks.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 /**
  * ConfigModule  允许我们使用嵌套对象定义和加载多个自定义配置文件，并通过 ConfigService 访问这些变量
@@ -56,6 +58,8 @@ import { CommonModule } from './common/common.module';
     CoffeeRatingsModule,
     DatabaseModule,
     CommonModule,
+    ScheduleModule.forRoot(),
+    TasksModule,
   ],
   controllers: [AppController],
   providers: [
